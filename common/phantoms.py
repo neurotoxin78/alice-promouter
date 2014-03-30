@@ -73,7 +73,7 @@ class phantom(object):
         dcap["phantomjs.page.settings.userAgent"] = (ua)
 
 
-        driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap) # or add to your PATH
+        driver = webdriver.PhantomJS(path=root_path+"/bin/_phantomjs", service_args=service_args, desired_capabilities=dcap) # or add to your PATH
         driver.set_window_size(1024, 768) # optional
         driver.set_page_load_timeout(15)
         driver.set_script_timeout(15)
@@ -99,16 +99,17 @@ class phantom(object):
         ## Walk 
         for item in url_list:
             try:
+                #print root_path 
                 rproxy = proxy.split(':')
                 service_args = ['--proxy='+rproxy[0]+':'+rproxy[1], '--proxy-type='+rproxy[2].replace('\n',''),]
                 ## User-Agent
                 dcap = dict(DesiredCapabilities.PHANTOMJS)
                 dcap["phantomjs.page.settings.userAgent"] = (ua)
-                driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap) # or add to your PATH
+                driver = webdriver.PhantomJS(executable_path=root_path+"bin/_phantomjs", service_args=service_args, desired_capabilities=dcap) # or add to your PATH
                 driver.set_window_size(1024, 768) # optional
                 driver.set_page_load_timeout(15)
                 driver.set_script_timeout(15)
-                timewait = randint(10, 90)
+                timewait = randint(10, 290)
                 log = u'-> '+ item.replace('\n','') + ' via '+ str(service_args) + " : " + str(timewait)+u's'
                 logger.info(log)                
                 driver.get(item.replace('\n',''))
@@ -135,7 +136,7 @@ class phantom(object):
                     ## User-Agent
                     dcap = dict(DesiredCapabilities.PHANTOMJS)
                     dcap["phantomjs.page.settings.userAgent"] = (ua)
-                    driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap) # or add to your PATH
+                    driver = webdriver.PhantomJS(executable_path=root_path+"bin/_phantomjs",service_args=service_args, desired_capabilities=dcap) # or add to your PATH
                     driver.set_window_size(1024, 768) # optional
                     driver.set_page_load_timeout(15)
                     driver.set_script_timeout(15)                 
@@ -153,7 +154,7 @@ class phantom(object):
                 ## User-Agent
                 dcap = dict(DesiredCapabilities.PHANTOMJS)
                 dcap["phantomjs.page.settings.userAgent"] = (ua)
-                driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap) # or add to your PATH
+                driver = webdriver.PhantomJS(executable_path=root_path+"bin/_phantomjs", service_args=service_args, desired_capabilities=dcap) # or add to your PATH
                 driver.set_window_size(1024, 768) # optional
                 driver.set_page_load_timeout(15)
                 driver.set_script_timeout(15)                

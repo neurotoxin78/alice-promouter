@@ -6,7 +6,7 @@ from multiprocessing import Process
 
 p=proxy()
 # Make proxylist
-p.make_proxy_lists()
+p.get_proxy_premium()
 
 f=phantom()
 THREADS = 100
@@ -22,7 +22,7 @@ def worker():
 
 if __name__ == '__main__':
     jobs = []
-    for i in range(20):
+    for i in range(7):
         p = Process(target=worker)
         jobs.append(p)
         p.start()

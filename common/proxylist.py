@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- coding: latin1 -*-
 from grab import Grab, GrabError
 from os import path, unlink
 import subprocess
@@ -21,7 +21,7 @@ class proxy(object):
         :returns: @todo
 
         """
-        self.get_list()
+        self.get_proxy_premium()
         alive_list =  self.get_valid_proxy(root_path+'/lists/proxy.list')
 
         with open(root_path+'/lists/alive.list', 'w') as f:
@@ -48,6 +48,25 @@ class proxy(object):
                         yield proxy.replace('\n','')+":http"
                 except:
                     print "Bad proxy" 
+    
+    def get_proxy_premium(self,  code='989570157'):
+        """@todo: Docstring for get_proxy_premium.
+
+        :code: @todo
+        :returns: @todo
+
+        """
+        g=Grab()
+        g.go('http://hideme.ru/api/proxylist.php?country=ALAMAUBEBGCACZEEFRGEDEILITKZLVMDNLANPLRORUCHTRUAGBUS&type=h&anon=34&out=plain&code='+code)
+        jlist = g.response.body.split()
+        print jlist
+        with open(root_path+'/lists/alive.list','w') as f: 
+            for proxy in jlist:
+                f.write(proxy+":http\n")
+
+
+
+
 
     def get_list(self):
         """@todo: Docstring for get_list.
@@ -55,7 +74,7 @@ class proxy(object):
 
         """
         g=Grab()
-        g.go('http://hideme.ru/proxy-list/?type=h')
+        g.go('http://hideme.ru/proxy-list/?country=AMAZBEBGCAHRCZDKEEFRGEDEITKZLVLUMDNLPLRORURSSECHTRUAGBUS&type=h&anon=234&code=989570157')
         #print g.xpath_text('//table')
         ips = g.css_list('td.tdl')
         imgs = g.xpath_list('//td/img')
@@ -99,4 +118,5 @@ class proxy(object):
 
 if __name__ == '__main__':
     p=proxy()
-    p.make_proxy_lists()
+#    p.make_proxy_lists()
+    p.get_proxy_premium()
