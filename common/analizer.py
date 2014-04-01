@@ -77,5 +77,5 @@ class project(object):
 
 if __name__ == '__main__':
     p=project()
-    print p.mkproject('svkvisa','http://svk-visa.com')
+    print p.mkproject('shalenakrasa','http://shalenakrasa.com.ua')
 

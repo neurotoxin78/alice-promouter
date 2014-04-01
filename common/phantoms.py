@@ -8,6 +8,8 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from random import choice, randint
 from time import sleep
 from colorlog import ColoredFormatter
+from ConfigParser import SafeConfigParser
+
 
 logger = logging.getLogger('phantom')
 hdlr = logging.FileHandler(root_path+'/alice-promo.log')
@@ -37,6 +39,7 @@ class phantom(object):
 
     def __init__(self):
         """@todo: to be defined1. """
+        self.cfg = SafeConfigParser()
     
     def get_random_ua(self):
         """@todo: Docstring for get_random_ua.
@@ -159,7 +162,23 @@ class phantom(object):
                 driver.set_page_load_timeout(15)
                 driver.set_script_timeout(15)                
         driver.close()
-    
+
+    def get_ctl(self,  project):
+        """@todo: Docstring for get_ctl.
+
+        :project: @todo
+        :returns: @todo
+
+        """
+        _prj_ctl_ = root_path+"projects/"+project+"/control"
+        run_file = _prj_ctl_ + "/run"
+        with open(run_file, 'r') as f:
+            state = f.read().replace('\n','')
+        if state == 'True':
+            return True
+        else:
+            return False
+
     def walk_forever(self, project):
         """@todo: Docstring for walk_forever.
 
@@ -167,9 +186,19 @@ class phantom(object):
         :returns: @todo
 
         """
-        chk_string = u"Визовая"
-        while True:
+        prj_path = root_path+"projects/"+project
+        
+        self.cfg.read(prj_path+"/project.conf")
+        cfg_dict = dict(self.cfg._sections['global'])        
+        
+        chk_string = cfg_dict['chk_string']
+
+
+        state = self.get_ctl(project)
+
+        while state == True:
             self.walk(project, chk_string)
+            state = self.get_ctl(project)
         return 0
 
 
