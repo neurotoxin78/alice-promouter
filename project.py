@@ -7,6 +7,9 @@ from common.phantoms import phantom
 root_path = path.dirname(path.realpath(__file__))
 from multiprocessing import Process
 from ConfigParser import SafeConfigParser
+import subprocess
+from sys import argv
+from common.proxylist import proxy
 
 logger = logging.getLogger('project')
 hdlr = logging.FileHandler(root_path+'/alice-promo.log')
@@ -75,24 +78,60 @@ class project(object):
         :returns: @todo
 
         """
+        ### Refresh proxy list
+        p=proxy()
+        # Make proxylist
+        p.get_proxy_premium()
+
         jobs = []
         prj_path = root_path+"/projects/"
         projects = listdir(prj_path)
-        print projects
         for item in projects:
             p = Process(target=self.run_project, args=[item])
             jobs.append(p)
             p.start()
             
-            #self.run_project(item)
+    def stop_all(self):
+        """@todo: Docstring for stop_all.
 
+        :arg1: @todo
+        :returns: @todo
 
+        """
+        cmdline = ['killall', '-9', '_phantomjs']
+        process = subprocess.Popen(cmdline, stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        print out, err
+
+        cmdline = ['killall', '-9', 'python']
+        process = subprocess.Popen(cmdline, stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        print out, err
+    
+    def update_proxy(self):
+        """@todo: Docstring for update_proxy.
+        :returns: @todo
+
+        """
+        p=proxy()
+        # Make proxylist
+        p.get_proxy_premium()
+        
 
 if __name__ == '__main__':
     p=project()
 #    p.run_project('svkvisa')
-    p.run_all()
-
-
+    cmd = argv
+    try:
+        if cmd[1] == 'stop':
+            p.stop_all()
+        elif cmd[1] == 'start':
+            p.run_all()
+        elif cmd[1] == 'update':
+            p.update_proxy()
+        else:
+            print 'Usage: project.py start | stop'
+    except:
+        print 'Usage: project.py start | stop'
 
 

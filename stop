@@ -1,0 +1,3 @@
+#!/bin/bash
+killall -9 python
+killall -9 _phantomjs

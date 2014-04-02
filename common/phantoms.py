@@ -109,7 +109,7 @@ class phantom(object):
                 dcap = dict(DesiredCapabilities.PHANTOMJS)
                 dcap["phantomjs.page.settings.userAgent"] = (ua)
                 driver = webdriver.PhantomJS(executable_path=root_path+"bin/_phantomjs", service_args=service_args, desired_capabilities=dcap) # or add to your PATH
-                driver.set_window_size(1024, 768) # optional
+                driver.set_window_size(1920, 1024) # optional
                 driver.set_page_load_timeout(15)
                 driver.set_script_timeout(15)
                 timewait = randint(10, 290)
@@ -140,7 +140,7 @@ class phantom(object):
                     dcap = dict(DesiredCapabilities.PHANTOMJS)
                     dcap["phantomjs.page.settings.userAgent"] = (ua)
                     driver = webdriver.PhantomJS(executable_path=root_path+"bin/_phantomjs",service_args=service_args, desired_capabilities=dcap) # or add to your PATH
-                    driver.set_window_size(1024, 768) # optional
+                    driver.set_window_size(1920, 1024) # optional
                     driver.set_page_load_timeout(15)
                     driver.set_script_timeout(15)                 
             except:
@@ -157,11 +157,14 @@ class phantom(object):
                 ## User-Agent
                 dcap = dict(DesiredCapabilities.PHANTOMJS)
                 dcap["phantomjs.page.settings.userAgent"] = (ua)
-                driver = webdriver.PhantomJS(executable_path=root_path+"bin/_phantomjs", service_args=service_args, desired_capabilities=dcap) # or add to your PATH
-                driver.set_window_size(1024, 768) # optional
-                driver.set_page_load_timeout(15)
-                driver.set_script_timeout(15)                
-        driver.close()
+                try:
+                    driver = webdriver.PhantomJS(executable_path=root_path+"bin/_phantomjs", service_args=service_args, desired_capabilities=dcap) # or add to your PATH
+                    driver.set_window_size(1920, 1024) # optional
+                    driver.set_page_load_timeout(15)
+                    driver.set_script_timeout(15)                
+                except:
+                    pass
+        #driver.close()
 
     def get_ctl(self,  project):
         """@todo: Docstring for get_ctl.
@@ -192,13 +195,13 @@ class phantom(object):
         cfg_dict = dict(self.cfg._sections['global'])        
         
         chk_string = cfg_dict['chk_string']
-
-
-        state = self.get_ctl(project)
-
-        while state == True:
-            self.walk(project, chk_string)
+        
+        while True:
             state = self.get_ctl(project)
+            while state == True:
+                self.walk(project, chk_string)
+                state = self.get_ctl(project)
+        sleep(1000)
         return 0
 
 

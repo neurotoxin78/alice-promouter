@@ -57,7 +57,7 @@ class proxy(object):
 
         """
         g=Grab()
-        g.go('http://hideme.ru/api/proxylist.php?country=ALAMAUBEBGCACZEEFRGEDEILITKZLVMDNLANPLRORUCHTRUAGBUS&type=h&anon=1234&out=plain&code='+code)
+        g.go('http://hideme.ru/api/proxylist.php?country=ALAMAUBEBGCACZEEFRGEDEILITKZLVMDNLANPLRORUCHTRUAGB&type=h&anon=1234&out=plain&code='+code)
         jlist = g.response.body.split()
         print jlist
         with open(root_path+'/lists/alive.list','w') as f: 
