@@ -201,6 +201,7 @@ class phantom(object):
             while state == True:
                 self.walk(project, chk_string)
                 state = self.get_ctl(project)
+		sleep(1000)
         sleep(1000)
         return 0
 
